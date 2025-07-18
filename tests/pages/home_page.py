@@ -1,17 +1,19 @@
 from playwright.sync_api import Page, expect
+from .base_page import BasePage
 
-class Home_page:
+
+class Home_page(BasePage):
     def __init__(self, page: Page):
-        self.page =page
+        super().__init__(page)
+        self.expected_title = "The Internet"
 
-    def goto(self, base_url):
-        self.page.goto(base_url)
+    def open(self, base_url: str):
+        self.goto(base_url)
 
     def check_title(self):
-        expect(self.page).to_have_title("Fast and reliable end-to-end testing for modern web apps | Playwright")
-        print(self.page.title())
-    
-    def click_elem(self, element):
-        element.click()
+        expect(self.page).to_have_title(self.expected_title)
+
+    def go_to_login(self):
+        self.page.click("text=Form Authentication")
 
 
